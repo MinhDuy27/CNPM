@@ -38,7 +38,7 @@ module.exports = (app) => {
   // get profile info
   app.get("/users/profile", userauth, async (req, res, next) => {
     try {
-      const { _id } = req.user;
+      const { _id} = req.user;
       const  data  = await service.getprofile( _id );
       return res.json(data);
     } catch (error) {
@@ -48,9 +48,9 @@ module.exports = (app) => {
   // buy more papers
   app.post("/users/buypaper",userauth, async (req, res, next) => {
     try {
-      const { studentid } = req.user;
+      const { _id} = req.user;
       const {number,money} = req.body;
-      const  data  = await service.buypaper({ studentid, number,money });
+      const  data  = await service.buypaper({ _id, number,money });
       return res.json(data)
     } catch (error) {
       next(error)
@@ -60,9 +60,9 @@ module.exports = (app) => {
   // send feedback
   app.post("/users/feedback",userauth, async (req, res, next) => {
     try {
-      const { studentid } = req.user;
+      const { _id } = req.user;
       const {content} = req.body;
-      const  data  = await service.sendfeedback({ studentid, content });
+      const  data  = await service.sendfeedback({ _id, content });
       return res.json(data)
     } catch (error) {
       next(error)

@@ -16,7 +16,7 @@ class usersservice {
         const validPassword = await validatepassword(password, existingusers.password, existingusers.salt);
         if (!validPassword)
             throw new validationError("invalid password")
-        const token = await generatesignature({ email: existingusers.email, _id: existingusers._id,studentid: existingusers.studentid });
+        const token = await generatesignature({ email: existingusers.email, _id: existingusers._id ,studentid: existingusers.studentid});
         return { id: existingusers._id, token };
     }
     async changepassword(userinputs) {
@@ -56,14 +56,14 @@ class usersservice {
         return existinguser;
         
     }
-    async buypaper({load}){
-        const {studentid,numberofpages,money} = load;
-        const data = await this.repository.buypaper(studentid,numberofpages,money)
+    async buypaper(load){
+        const {_id,number,money} = load;
+        const data = await this.repository.buypaper(_id,number,money)
         return data
     }
-    async sendfeedback({load}){
-        const {studentid,content} = load;
-        const data = await this.repository.sendfeedback(studentid,content);
+    async sendfeedback(load){
+        const {_id,content} = load;
+        const data = await this.repository.sendfeedback(_id,content);
         return data;
 
     }

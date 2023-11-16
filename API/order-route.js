@@ -11,16 +11,16 @@ const storage = multer.diskStorage({
   });
   const upload = multer({
     storage: storage,
-  }).array('orderfile', 1);
+  });
 
 module.exports =  (app) =>{
     const service = new orderservice();
 
     // send printing request
-    app.post("/order/printing",userauth,upload, async (req, res, next) => {
+    app.post("/order/printing",userauth,upload.single('orderfile'), async (req, res, next) => {
         try{
           const {studentid } = req.user;
-          const document = req.file;
+          const document = req.file.originalname;
           const {size,numberofpages} = req.body;
           const   mydata   = await service.placerequest({ studentid,document,size,numberofpages });
           return  res.json(mydata)
@@ -33,7 +33,7 @@ module.exports =  (app) =>{
       try {
           const {studentid} = req.user;
           const {orderid} = req.body;
-          const mydata = await service.deleterequest({ studentid,orderid});
+          const mydata = await service.deleterequest(studentid,orderid);
           return  res.json(mydata)
       } 
       catch (error) {
@@ -41,10 +41,10 @@ module.exports =  (app) =>{
       }
     })
     //get order information
-    app.get("order/infor",userauth,async(req, res, next)=>{
+    app.get("/order/infor",userauth,async(req, res, next)=>{
         try {
             const {studentid} = req.user;
-            const data = await service.getorderinfor(userid);
+            const data = await service.gerorderinfor(studentid);
             return res.json(data);
         } catch (error) {
           

@@ -17,7 +17,7 @@ class usersrepository {
   }
 
   async findusers( email ) {
-    let result = await usersmodel.findOne({ email: email }); 
+    let result = await usersmodel.findOne({ email: email }).lean(); 
     return result;
 }
 
@@ -27,24 +27,24 @@ class usersrepository {
         const options = {};
         return await usersmodel.updateOne(query, update, options)
   }
-  async sendfeedback(studentid,content){
-      const existingusers = await usersmodel.findOne({ studentid: studentid });
+  async sendfeedback(_id,content){
+      const existingusers = await usersmodel.findById(_id).select('feedback');
       let writingday = new Date().toLocaleString();
       const newfeedback = {
-        content: content,
-        date: writingday
+        content,
+        writingday
       };
       existingusers.feedback.push(newfeedback);
       return existingusers.save();
   }
-  async buypaper(studentid,numberofpages,money){
-    const existingusers = await usersmodel.findOne({ studentid: studentid });
-    existingusers.numberofpages += parseInt(numberofpages)
-    existingusers.money -= parseInt(money)
+  async buypaper(_id,number,money){
+    const existingusers = await usersmodel.findById(_id).select('balance pages');
+    existingusers.balance = existingusers.balance - parseInt(money)
+    existingusers.pages = existingusers.pages + parseInt(number)
     return existingusers.save();
   }
   async findusersbyid( id ) {
-      const existingusers = await usersmodel.findById(id)
+      const existingusers = await usersmodel.findById(id).lean();
       return existingusers;
   }
   

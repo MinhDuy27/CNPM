@@ -12,7 +12,7 @@ const usersschema = new Schema({
     feedback:[
         {
             content: String,
-            writingDay: String
+            writingday: String
         }
     ]
 },{
