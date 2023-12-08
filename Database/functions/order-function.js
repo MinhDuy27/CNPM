@@ -2,17 +2,22 @@ const  ordermodel  = require("../models/order");
 const  usermodel  = require("../models/users");
 const { v4: uuidv4 } = require('uuid'); //generate uniq id
 class orderreposittory {
-    async placerequest(studentid,document,size,numberofpages) {
+    async placerequest(studentid, document, size, numberofpages, numcopies, numsides) {
     
-        const orderdate = new Date().toLocaleString();
+        const current = new Date();
+        const orderdatestart = current.toLocaleString();
+        const orderdateend = new Date(current.setMinutes(current.getMinutes() + 1)).toLocaleString();
         const orderid = uuidv4(); 
         const order = new ordermodel({
             studentid,
             orderid,
-            orderdate,
+            orderdatestart,
+            orderdateend,
             status : "processing",
             document,
             size,
+            numcopies,
+            numsides,
             numberofpages,
 
         });

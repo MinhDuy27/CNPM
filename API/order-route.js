@@ -18,11 +18,11 @@ module.exports =  (app) =>{
 
     // send printing request
     app.post("/order/printing",userauth,upload.single('orderfile'), async (req, res, next) => {
-        try{
+      try{
           const {studentid } = req.user;
           const document = req.file.originalname;
-          const {size,numberofpages} = req.body;
-          const   mydata   = await service.placerequest({ studentid,document,size,numberofpages });
+          var {size, numberofpages, numcopies, numsides} = req.body;
+          const   mydata   = await service.placerequest({ studentid, document, size, numberofpages, numcopies, numsides });
           return  res.json(mydata)
         }
         catch(error){

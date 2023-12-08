@@ -6,8 +6,8 @@ class orderservice {
         this.repository = new orderrepository();
     }
     async placerequest(load){
-        const {studentid,document,size,numberofpages } = load;
-        const result = await this.repository.placerequest(studentid,document,size,numberofpages)
+        const {studentid,document,size,numberofpages,numcopies,numsides } = load;
+        const result = await this.repository.placerequest(studentid,document,size,numberofpages,numcopies,numsides);
         return result
     }
     async deleterequest(studentid,orderid){

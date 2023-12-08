@@ -1,0 +1,89 @@
+Chương 3: Phân tích và thiết kế
+
+Các kĩ thuật tấn công và phòng chống DoS trong 5 tầng:
+
+1. Theo loại hình tấn công:
+
+1.1. Tấn công băng thông:
+Loại kỹ thuật tấn công này nhằm vào băng thông của hệ thống mạng và dịch vụ đang chạy của nạn nhân. Làm hệ thống máy chủ bị vô hiệu hóa khỏi mạng Internet, các người dùng hợp pháp không thể truy cập được vào hệ thống máy chủ.
+Flooding (ngập lụt): bằng cách điểu khiển các máy tính botnet đột ngột gửi 1 lượng lớn lưu lượng truy cập (traffic) tới máy tính nạn nhân để làm tê liệt toàn bộ băng thông máy chủ.
+VD: HTTP(s) flood attack, TCP SYN flood attack, ICMP flood attack
+
+Amplification (khuếch đại): kẻ tấn công sẽ gửi lệnh thực thi tới địa chỉ IP broadcast. Đây là cách để khuyếch tán các lưu lượng truy cập độc hại làm vô hiệu hóa mạng máy tính nạn nhân.
+VD: User Datagram Protocol (UDP) flood attack, Internet Control Message Protocol (ICMP) flood attack, Ping of Death attack, Smurf Attack, Malformed IP packed flood attack, Spoofed IP packed flood attack
+
+
+1.2. Tấn công giao thức:
+Các cuộc tấn công dạng Protocol DDoS sẽ nhanh chóng làm cạn kiệt tài nguyên của đối tượng. Khiến cho máy chủ nạn nhân không thể gửi các gói tin phản hồi (new connection) cũng như không thể kiểm soát được bảng trạng thái kết nối (connection state table). Nhằm vào các thiết bị hạ tầng như load-balancers, firewalls, máy chủ applications.
+VD: SYN flood attack, ACK flood attack, TCP connection flood attack, TCP state exhastion attack, Fragmentation attack, RST attack
+
+1.3. Tấn công tầng ứng dụng:
+Kẻ tấn công sẽ cố gắng khai thác các lổ hổng tại tầng ứng dụng hoặc ngay trên chính ứng dụng đó để ngăn chặn các người dùng hợp pháp truy cập vào ứng dụng. Kỹ thuật này không đòi hỏi quá nhiều băng thông và tài nguyên để thực hiện một cuộc tấn công thành công.
+Kết quả mong muốn của kẻ xấu làm làm cho dịch vụ bị tạm ngừng kết nối tới Internet, hoặc làm cho ứng dụng không thể hoạt động bình thường. Ngoài ra kẻ xấu có thể khai thác các điểm yếu trong source code của ứng dụng ngăn chặn nó xử lý các truy vấn của người dùng xác thực.
+VD: HTTP Flood attack, Slowloris attack
+
+2. Theo các tầng mô hình mạng:
+
+2.1. Tầng ứng dụng:
+Tấn công chậm: đặc điểm chung của tấn công chậm là kiểu tấn công này bắt server phải giữ kết nối để đợi kẻ tấn công bằng phương pháp "nhỏ giọt": kẻ tấn công sẽ gửi / nhận dữ liệu rất nhỏ trong một khoảng thời gian dài trước khi time out nhằm tiêu tốn tài nguyên của server trong thời gian dài.
+VD: Slow rate attack, Slow post attack, Slow read attack
+
+Flooding: sử dụng concept của dạng flooding dựa trên HTTP(s) POST/GET (HTTP flood attack).
+Mimicked: điểm chung của tấn công dạng này thường sẽ sử dụng botnet để tạo các yêu cầu có vẻ hợp pháp đến server với số lượng lớn, gây quá tải server.
+Large payload post: dạng tấn công này sẽ tiêu thụ tài nguyên server bằng cách gửi một dạng thông tin cần được giải mã với kích thước lớn.
+
+
+2.2. Tầng vận chuyển:
+Flooding: sử dụng concept của dạng flooding dựa trên TCP/UDP (TCP SYN flood attack / UDP flood attack).
+De-Synchronization: gây xáo trộn kết nối, làm lãng phí tài nguyên máy chủ.
+
+
+2.3. Tầng mạng:
+Smurf: là dạng tấn công khuếch đại sử dụng gói tin ICMP (Smurf attack).
+Flooding: sử dụng concept cơ bản của flooding dựa trên ICMP (ICMP flood attack / Ping flood).
+
+2.4. Tầng Data link:
+Unfareness: việc sử dụng sai hệ thống ưu tiên lớp MAC hợp tác hoặc áp dụng lẻ tẻ các cuộc tấn công đó có thể dẫn đến Tấn công Unfareness, một loại tấn công DoS có định dạng yếu.
+Collision: dựa trên việc đảm bảo lỗi của gói tin ACK, kẻ tấn công sẽ làm sai lệch đi checksum bằng nhiều cách khác nhau, từ đó khiến server sẽ tốn chi phí xác thực gói tin đó.
+Exhausion: Các cuộc tấn công này chủ yếu tập trung vào việc phá hủy các dịch vụ hoặc cơ sở hạ tầng mạng cơ bản chịu trách nhiệm cung cấp nội dung cho người dùng đầu cuối, thường nhắm vào load balancer, tường lửa và dịch vụ kiểm tra lưu lượng truy cập trạng thái của các dịch vụ được hiển thị công khai bằng cách gia tăng lượng scale cần đảm bảo kết nối TCP của các thiết bị này.
+
+2.5. Tầng vật lý:
+Jamming: là một kiểu tấn công nổi tiếng trong giao tiếp không dây. Tấn công dạng này sẽ sử dụng các thiết bị vật lý để overload một khu vực mạng, khiến các thiết bị mạng không dây bị vô hiệu hóa, không thể kết nối vào Internet.
+Tampering: kẻ tấn công không được ủy quyền sẽ thay đổi dữ liệu khiến tính toàn vẹn của dữ liệu bị xâm phạm, thường nhằm mục đích đạt được lợi ích độc hại hoặc làm gián đoạn chức năng. Trong khía cạnh về DoS, việc tấn công này sẽ nhắm vào phần cứng và gây tổn hại nó, gây hiện tượng từ chối dịch vụ.
+
+Cách phòng tránh:
+a. Hạn chế độ rộng tấn công: Các giao thức, thiết bị, ứng dụng lỗi thời có thể là một trong những điểm yếu sẽ bị khai thác bởi tin tặc. Một số phương pháp để giảm nguy cơ này bao gồm hạn chế lưu lượng truy cập đến các vị trí cụ thể, triển khai các load balancer và chặn liên lạc từ các cổng, giao thức và ứng dụng lỗi thời hoặc không được sử dụng.
+b. Sử dụng Anycast: Anycast là một phương pháp định tuyến, các yêu cầu từ người dùng sẽ được phân tán đến nhiều máy chủ khác nhau nhằm giảm tải cho máy chủ nào đó.
+c. Giám sát các mối đe dọa theo thời gian thực: giám sát các file log có thể giúp phát hiện kịp thời các mối đe dọa và ngăn chặn server khỏi các yêu cầu, giao thức hay IP tấn công.
+d. Caching: caching sẽ lưu trữ một số thông tin nhất định giúp máy chủ xử lý một lượng dữ liệu ít hơn. Việc sử dụng CDN để lưu trữ tài nguyên có thể giảm căng thẳng cho máy chủ của tổ chức và khiến chúng khó bị quá tải bởi cả yêu cầu hợp pháp và độc hại.
+e. Rate limiting: Giới hạn tốc độ hạn chế lưu lượng truy cập mạng trong một khoảng thời gian cụ thể, ngăn không cho máy chủ web bị quá tải bởi các yêu cầu từ các địa chỉ IP cụ thể. Rate limiting có thể được sử dụng để ngăn chặn các cuộc tấn công DDoS sử dụng botnet để tấn công một  máy chủ nào đó bằng lượng lớn các yêu cầu.
+
+Lý do chọn cách phân thành 5 tầng để hiện thực:
+Việc phân chia cách thức tấn công theo loại sẽ giúp tiếp cận dễ hơn với cách thức tấn công đó. Tuy nhiên, trong mô hình mạng, các gói tin sẽ được đóng gói và bóc tách theo từng lớp mạng. Do đặc điểm gói tin mỗi tầng là khác nhau, phương thức hiện thực và phòng chống có thể cũng sẽ khác. Các tầng càng xa nhau thì các giao thức, các cách thức hiện thực cũng như ngăn chặn sẽ càng khác biệt. Vì vậy, việc phân tích theo các tầng mạng sẽ giúp quá trình hiện thực cũng như phòng tránh dễ dàng hơn.
+Tuy nhiên, cũng nên tìm hiểu các cách tấn công theo loại để hiểu rõ bản chất của loại hình tấn công đó, điều này sẽ hỗ trợ quá trình hiện thực theo từng lớp mạng dễ dàng hơn.
+
+
+
+Reference:
+
+1. https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=933d50860c3f26bc88eb446b5399d6a5a2785405
+
+2. http://ijmrap.com/wp-content/uploads/2020/01/IJMRAP-V2N7P59Y20.pdf
+
+3. https://www.researchgate.net/profile/Zahida-Parveen-4/publication/330132778_Security_issues_in_Protocols_of_TCPIP_Model_at_Layers_Level/links/5f0ef410a6fdcc3ed7083900/Security-issues-in-Protocols-of-TCP-IP-Model-at-Layers-Level.pdf
+
+4. https://d1wqtxts1xzle7.cloudfront.net/47121860/L1803046876-libre.pdf?1468042891=&response-content-disposition=inline%3B+filename%3DSurvey_Of_DDoS_Attacks_Based_On_TCP_IP_P.pdf&Expires=1701334910&Signature=QO09Z5pRMeq9UMYtWknfJKvGHF2aMp8qhqs5EBpCa5PNLiwNmFd8ojXGlcfA43q4ynCDhxyi0fIEGFJ2L5KbiQblT7mvGmjm9LIq7XmcYJVNIN4w-7M4w9UxhYuhe98TVCM1M~tmvnzps4jHi3fhB~6kIXTRu-jmcy8eOCJwHhLLrw1FTFy7hAurmJKl3a54RstWQFDrmOqB1-yQTF8x3aKX4DQhU5bQ14MIJEJ4zWIzZ0I28QjQuk3e9FRFmAxI9IMM-wsTdeh4D9gYQJnGcd0LMbDfDd8IFv0IYoQuySNc-aGf9XZMn3NKVOj-tO4KOXVV34dFc-7BorHvAHJFow__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA
+
+5. https://d1wqtxts1xzle7.cloudfront.net/32957427/p1_1-2-libre.pdf?1392051079=&response-content-disposition=inline%3B+filename%3DDOS_Attacks_on_TCP_IP_Layers_in_WSN.pdf&Expires=1701334767&Signature=XifRM6MnF2QsPSpYYGNQdN5JoaMftBKPjNUSTcd-ltoNeh9-PGWsPZV4PEXjG0Pkzs1y~hrjmJLVIHCv5CbfqtUZUAy7Hb3SIUU2YCNyWfLiqNCD6dJ79P2wwk4m3iPD~ssHT~718AzaqP4jXbznGfKBC5nFarhdM8KfLAgkrbHeMYE~aOE7blOKW619slLS8bCDc8oqq7yywM4xXhbi5mIqKYOGke36zMWqpgml6ulO8VNCmAUq2P-YwmwgSbEg65-uSRYL0KPkpK90GvqFOtZ3fs29ET6TtnJZxq4HdfHWpGyCY4lehqqRnFzHJUJy95sZjx8yT4eZZ6mYvCu6fg__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA
+
+6. https://www.invicti.com/blog/web-security/6-application-layer-ddos-attacks-signals-and-indicators/#:~:text=Whatever%20the%20type%20of%20application-layer%20DDoS%20attack%2C%20there,much%20longer%20than%20usual%20to%20respond%20to%20requests.
+
+7. https://whitehat.vn/threads/tan-cong-http-slowloris.4655/#:~:text=K%E1%BA%BB%20t%E1%BA%A5n%20c%C3%B4ng%20s%E1%BA%BD%20g%E1%BB%ADi%20%C4%91%E1%BA%BFn%20webserver%20nhi%E1%BB%81u,%C4%91%E1%BA%BFn%20bao%20g%E1%BB%93m%20c%E1%BA%A3%20request%20c%E1%BB%A7a%20ng%C6%B0%E1%BB%9Di%20d%C3%B9ng.
+
+8. https://blog.vinahost.vn/ky-thuat-tan-cong-dos-va-ddos/#:~:text=C%C3%A1c%20k%E1%BB%B9%20thu%E1%BA%ADt%20t%E1%BA%A5n%20c%C3%B4ng%20DoS%20%2F%20DDoS,Attacks%20...%203%205.3.%20Application%20Layer%20Attacks%20
+
+9. https://seon.io/resources/dictionary/jamming-attacks/#:~:text=The%20following%20steps%20will%20help%20you%20to%20ascertain,strongest%20encryption%20available%20and%20practice%20good%20password%20hygiene.
+
+10. https://www.cloudflare.com/learning/ddos/how-to-prevent-ddos-attacks/
+
+11. https://www.cloudflare.com/learning/cdn/glossary/anycast-network/

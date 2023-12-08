@@ -5,10 +5,13 @@ const Schema = mongoose.Schema;
 const orderschema = new Schema({
     studentid: String,//unique
     orderid: String,//unique
-    orderdate:String,
+    orderdatestart:String,
+    orderdateend:String,
     status: String,
     document: String,
     size: String,
+    numcopies: String,
+    numsides: String,
     numberofpages: Number,
 },{
     toJSON: {
