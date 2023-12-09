@@ -1,5 +1,5 @@
 const  usersmodel  = require("../models/users");
-
+const historymodel = require("../models/history");
 class usersrepository {
   async createusers({ email,password,name,salt }) {
     
@@ -47,7 +47,10 @@ class usersrepository {
       const existingusers = await usersmodel.findById(id).lean();
       return existingusers;
   }
-  
+  async buypaper_history( id ) {
+    const history = await historymodel.find({studentid:id})
+    return history;
+}
 }
 
 module.exports = usersrepository;

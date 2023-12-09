@@ -67,6 +67,12 @@ class usersservice {
         return data;
 
     }
+    async buypaper_history(id){
+        const data = await this.repository.buypaper_history(id);
+        if(!data)
+            throw new notfoundError("not found");
+        return data;
+    }
 }
 
 module.exports = usersservice;

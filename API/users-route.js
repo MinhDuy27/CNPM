@@ -68,5 +68,14 @@ module.exports = (app) => {
       next(error)
     }
   });
+  app.get("/users/buypaper/history",userauth, async (req, res, next) => {
+    try {
+      const { _id } = req.user;
+      const  data  = await service.buypaper_history( _id);
+      return res.json(data)
+    } catch (error) {
+      next(error)
+    }
+  });
 
 }
