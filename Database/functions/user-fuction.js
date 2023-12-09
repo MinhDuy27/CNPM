@@ -41,6 +41,14 @@ class usersrepository {
     const existingusers = await usersmodel.findById(_id).select('balance pages');
     existingusers.balance = existingusers.balance - parseInt(money)
     existingusers.pages = existingusers.pages + parseInt(number)
+    const history = new historymodel({
+      studentid:_id,
+      paytime:new Date().toLocaleString(),
+      number:number,
+      money:money,
+      status:"paid"
+    });
+    await history.save();
     return existingusers.save();
   }
   async findusersbyid( id ) {
