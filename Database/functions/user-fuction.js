@@ -59,7 +59,6 @@ class usersrepository {
     const history = await historymodel.find({studentid:id})
     return history;
 }
-  
 }
 
 module.exports = usersrepository;
