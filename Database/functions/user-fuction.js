@@ -1,5 +1,5 @@
 const  usersmodel  = require("../models/users");
-
+const historymodel = require("../models/history");
 class usersrepository {
   async createusers({ email,password,name,salt }) {
     
@@ -41,12 +41,24 @@ class usersrepository {
     const existingusers = await usersmodel.findById(_id).select('balance pages');
     existingusers.balance = existingusers.balance - parseInt(money)
     existingusers.pages = existingusers.pages + parseInt(number)
+    const history = new historymodel({
+      studentid:_id,
+      paytime:new Date().toLocaleString(),
+      number:number,
+      money:money,
+      status:"paid"
+    });
+    await history.save();
     return existingusers.save();
   }
   async findusersbyid( id ) {
       const existingusers = await usersmodel.findById(id).lean();
       return existingusers;
   }
+  async buypaper_history( id ) {
+    const history = await historymodel.find({studentid:id})
+    return history;
+}
   
 }
 
