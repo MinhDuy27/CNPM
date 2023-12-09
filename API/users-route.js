@@ -50,7 +50,6 @@ module.exports = (app) => {
     try {
       const { _id} = req.user;
       const {number,money} = req.body;
-      console.log(req.body)
       const  data  = await service.buypaper({ _id, number,money });
       return res.json(data)
     } catch (error) {
