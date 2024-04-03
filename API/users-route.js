@@ -46,5 +46,28 @@ module.exports = (app) => {
     }
   });
 
+<<<<<<< HEAD
 
+=======
+  // send feedback
+  app.post("/users/feedback",userauth, async (req, res, next) => {
+    try {
+      const { _id } = req.user;
+      const {content} = req.body;
+      const  data  = await service.sendfeedback({ _id, content });
+      return res.json(data)
+    } catch (error) {
+      next(error)
+    }
+  });
+  app.get("/users/buypaper/history",userauth, async (req, res, next) => {
+    try {
+      const { _id } = req.user;
+      const  data  = await service.buypaper_history( _id);
+      return res.json(data)
+    } catch (error) {
+      next(error)
+    }
+  });
+>>>>>>> 7ba7a7eef232183bc64b7c97289af5467405e896
 }
