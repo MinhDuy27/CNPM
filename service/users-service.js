@@ -56,26 +56,6 @@ class usersservice {
         return existinguser;
         
     }
-<<<<<<< HEAD
-=======
-    async buypaper(load){
-        const {_id,number,money} = load;
-        const data = await this.repository.buypaper(_id,number,money)
-        return data
-    }
-    async sendfeedback(load){
-        const {_id,content} = load;
-        const data = await this.repository.sendfeedback(_id,content);
-        return data;
-
-    }
-    async buypaper_history(id){
-        const data = await this.repository.buypaper_history(id);
-        if(!data)
-            throw new notfoundError("not found");
-        return data;
-    }
->>>>>>> 7ba7a7eef232183bc64b7c97289af5467405e896
 }
 
 module.exports = usersservice;
