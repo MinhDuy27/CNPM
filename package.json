@@ -1,5 +1,5 @@
 {
-  "name": "cnpm---be",
+  "name": "DATH",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MinhDuy27/CNPM.git"
+    "url": "git+https://github.com/MinhDuy27/DATH---BE.git"
   },
   "author": "DT",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MinhDuy27/CNPM/issues"
+    "url": "https://github.com/MinhDuy27/DATH---BE/issues"
   },
-  "homepage": "https://github.com/MinhDuy27/CNPM#readme",
+  "homepage": "https://github.com/MinhDuy27/DATH---BE#readme",
   "devDependencies": {
     "nodemon": "^3.0.1"
   },

@@ -44,7 +44,7 @@ class usersrepository {
     return existingusers.save();
   }
   async findusersbyid( id ) {
-      const existingusers = await usersmodel.findById(id).lean();
+      const existingusers = await usersmodel.findById(id);
       return existingusers;
   }
   

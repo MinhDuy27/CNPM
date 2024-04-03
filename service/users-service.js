@@ -56,17 +56,6 @@ class usersservice {
         return existinguser;
         
     }
-    async buypaper(load){
-        const {_id,number,money} = load;
-        const data = await this.repository.buypaper(_id,number,money)
-        return data
-    }
-    async sendfeedback(load){
-        const {_id,content} = load;
-        const data = await this.repository.sendfeedback(_id,content);
-        return data;
-
-    }
 }
 
 module.exports = usersservice;

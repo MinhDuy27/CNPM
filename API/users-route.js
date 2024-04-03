@@ -45,28 +45,6 @@ module.exports = (app) => {
       next(error);
     }
   });
-  // buy more papers
-  app.post("/users/buypaper",userauth, async (req, res, next) => {
-    try {
-      const { _id} = req.user;
-      const {number,money} = req.body;
-      const  data  = await service.buypaper({ _id, number,money });
-      return res.json(data)
-    } catch (error) {
-      next(error)
-    }
-  });
 
-  // send feedback
-  app.post("/users/feedback",userauth, async (req, res, next) => {
-    try {
-      const { _id } = req.user;
-      const {content} = req.body;
-      const  data  = await service.sendfeedback({ _id, content });
-      return res.json(data)
-    } catch (error) {
-      next(error)
-    }
-  });
 
 }
